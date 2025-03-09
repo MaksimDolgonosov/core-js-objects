@@ -34,18 +34,31 @@ function shallowCopy(obj) {
  *    mergeObjects([{a: 1, b: 2}, {b: 3, c: 5}]) => {a: 1, b: 5, c: 5}
  *    mergeObjects([]) => {}
  */
-function mergeObjects(/* objects */) {
-  throw new Error('Not implemented');
-  // return objects.reduce((sum, val) => {
-  //   for (const key in val) {
-  //     if (Object.hasOwn(sum, key)) {
-  //       sum[key] += val[key];
-  //     } else {
-  //       sum[key] = val[key];
-  //     }
-  //   }
-  //   return sum;
-  // }, {});
+function mergeObjects(objects) {
+  // throw new Error('Not implemented');
+  return objects.reduce((sum, val) => {
+    Object.entries(val).forEach((entry) => {
+      if (Object.hasOwn(sum, entry[0])) {
+        const res = sum;
+        res[entry[0]] += entry[1];
+      } else {
+        const res = sum;
+        const key = entry[0];
+        const value = entry[1];
+        res[key] = value;
+        // const {key:value} = res;
+        // res[entry[0]] = entry[1];
+      }
+    });
+    // for (const key in val) {
+    //   if (Object.hasOwn(sum, key)) {
+    //     sum[key] += val[key];
+    //   } else {
+    //     sum[key] = val[key];
+    //   }
+    // }
+    return sum;
+  }, {});
 }
 
 /**
@@ -314,6 +327,7 @@ function sortCitiesArray(arr) {
 function group(array, keySelector, valueSelector) {
   // throw new Error('Not implemented');
   const map = new Map();
+  console.log(Object.group(array, keySelector));
   Object.entries(Object.groupBy(array, keySelector)).forEach((item) => {
     map.set(item[0], item[1].map(valueSelector));
   });
